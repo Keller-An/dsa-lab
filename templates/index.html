@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h1>Лабораторная работа 4</h1>
+
+<p style="text-align:center; font-weight: bold;">
+    Разработка механизмов аутентификации и авторизации для WEB-приложений на Flask
+</p>
+
+<p style="text-align:center;">
+    В данной лабораторной работе реализовано веб-приложение,
+    обеспечивающее регистрацию новых пользователей и их
+    последующую авторизацию.
+</p>
+
+<hr>
+
+<p style="text-align:center;">
+    Вы вошли как: <b>{{ user.name }}</b>
+</p>
+
+<form action="{{ url_for('logout') }}">
+    <button type="submit">Выйти</button>
+</form>
+{% endblock %}
+
