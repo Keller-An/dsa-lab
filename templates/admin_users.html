@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Администратор</title>
+</head>
+
+<body>
+
+<h1>Панель администратора</h1>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <ul>
+    {% for msg in messages %}
+        <li style="color: green;">{{ msg }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
+
+<form action="/logout" method="GET" style="margin-bottom: 15px;">
+    <button type="submit">Выйти</button>
+</form>
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Администратор</th>
+        <th>Удаление</th>
+    </tr>
+
+    {% for user in users %}
+
+    <tr>
+        <td>{{ user[0] }}</td>
+        <td>{{ user[1] }}</td>
+        <td>{{ user[2] }}</td>
+        <td>
+
+            <form action="/admin/delete_user/{{ user[0] }}" method="POST">
+
+                <button type="submit">
+                    Удалить
+                </button>
+
+            </form>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+</body>
+</html>

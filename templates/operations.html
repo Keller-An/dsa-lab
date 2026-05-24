@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Операции</title>
+</head>
+<body>
+
+<h1>Операции пользователя</h1>
+
+<p>Валюта: {{ currency }}</p>
+
+<a href="/operations?currency=RUB">RUB</a>
+<a href="/operations?currency=USD">USD</a>
+<a href="/operations?currency=EUR">EUR</a>
+
+<br><br>
+
+<h2>Добавить операцию</h2>
+
+<input type="text" id="date" placeholder="Дата (2024-01-01)">
+<input type="number" id="amount" placeholder="Сумма">
+<select id="type">
+    <option value="доход">Доход</option>
+    <option value="расход">Расход</option>
+</select>
+<button onclick="addOperation()">Добавить</button>
+
+<p id="message"></p>
+
+<br>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Дата</th>
+        <th>Сумма</th>
+        <th>Тип</th>
+    </tr>
+
+    {% for operation in operations %}
+    <tr>
+        <td>{{ operation.id }}</td>
+        <td>{{ operation.date }}</td>
+        <td>{{ operation.amount }}</td>
+        <td>{{ operation.type }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<br>
+<a href="/logout">Выйти</a>
+
+<script>
+async function addOperation() {
+
+    const date = document.getElementById("date").value;
+    const amount = document.getElementById("amount").value;
+    const type = document.getElementById("type").value;
+
+    const response = await fetch("/add_operation", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            date: date,
+            amount: parseFloat(amount),
+            type_operation: type
+        })
+    });
+
+    const data = await response.json();
+    document.getElementById("message").innerText = data.message;
+
+    // перезагружаем страницу чтобы увидеть новую операцию
+    if (response.ok) {
+        location.reload();
+    }
+}
+</script>
+
+</body>
+</html>
